@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import Navbar from '@/components/Navbar';
 import ProjectOverview from '@/components/ProjectOverview';
 import Timeline from '@/components/Timeline';
 import { format } from 'date-fns';
-import fr from 'date-fns/locale/fr';
+import { fr } from 'date-fns/locale/fr';
 import { ArrowLeft, MessageSquare, PlusCircle, Send } from 'lucide-react';
 import AnimatedCard from '@/components/motion/AnimatedCard';
 import { Input } from '@/components/ui/input';

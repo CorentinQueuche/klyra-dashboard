@@ -9,7 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
 import { format } from 'date-fns';
-import fr from 'date-fns/locale/fr';
+import { fr } from 'date-fns/locale/fr';
 import Navbar from '@/components/Navbar';
 import StatusBadge from '@/components/StatusBadge';
 import { useToast } from '@/hooks/use-toast';
