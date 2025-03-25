@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import Auth from "./pages/Auth";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 import ProjectDetail from "./pages/ProjectDetail";
+import Marketplace from './pages/Marketplace';
 
 const queryClient = new QueryClient();
 
@@ -25,9 +25,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/new-project" element={<NewProject />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/new-project" element={<NewProject />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, FileText, Plus } from 'lucide-react';
+import { Calendar, Clock, FileText, Plus, Sparkles, Package } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/lib/types';
 import { useAuth } from '@/context/AuthContext';
@@ -14,6 +14,7 @@ import Navbar from '@/components/Navbar';
 import StatusBadge from '@/components/StatusBadge';
 import { useToast } from '@/hooks/use-toast';
 import AnimatedCard from '@/components/motion/AnimatedCard';
+import UpgradeBanner from '@/components/UpgradeBanner';
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(true);
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -101,6 +103,14 @@ const Projects = () => {
     fetchProjects();
   }, [user, toast]);
 
+  const handleUpgradeClick = () => {
+    toast({
+      title: "Abonnement Premium",
+      description: "Vous allez être redirigé vers la page d'abonnement...",
+    });
+    // Ici, vous pourriez rediriger vers une page d'abonnement
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -125,11 +135,22 @@ const Projects = () => {
           transition={{ duration: 0.5 }}
           className="space-y-6"
         >
+          {showUpgradeBanner && (
+            <UpgradeBanner
+              title="Déverrouillez tout le potentiel de vos projets"
+              description="Passez à Klyra Premium pour accéder à plus de fonctionnalités et d'analyses"
+              ctaText="Découvrir Premium"
+              onClose={() => setShowUpgradeBanner(false)}
+              onCTAClick={handleUpgradeClick}
+              className="mb-6"
+            />
+          )}
+
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold">Vos Projets</h1>
-            <Button onClick={() => navigate('/new-project')}>
-              <Plus className="mr-2 h-4 w-4" />
-              Nouveau Projet
+            <Button onClick={() => navigate('/marketplace')}>
+              <Package className="mr-2 h-4 w-4" />
+              Découvrir nos services
             </Button>
           </div>
 
@@ -139,11 +160,11 @@ const Projects = () => {
                 <FileText className="h-12 w-12 text-muted-foreground mb-4" />
                 <h3 className="text-lg font-medium mb-2">Aucun projet pour le moment</h3>
                 <p className="text-muted-foreground text-center mb-6">
-                  Commencez par créer votre premier projet pour suivre son avancement
+                  Découvrez nos services pour commencer votre premier projet
                 </p>
-                <Button onClick={() => navigate('/new-project')}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Créer un projet
+                <Button onClick={() => navigate('/marketplace')}>
+                  <Package className="mr-2 h-4 w-4" />
+                  Découvrir nos services
                 </Button>
               </CardContent>
             </Card>
@@ -152,6 +173,24 @@ const Projects = () => {
               {projects.map((project, index) => (
                 <ProjectCard key={project.id} project={project} index={index} />
               ))}
+              <AnimatedCard delay={projects.length * 0.1}>
+                <Card 
+                  className="h-full border-dashed cursor-pointer hover:border-klyra-300 hover:bg-klyra-50/30 transition-colors flex flex-col items-center justify-center p-6"
+                  onClick={() => navigate('/marketplace')}
+                >
+                  <div className="h-12 w-12 rounded-full bg-klyra-100 flex items-center justify-center text-klyra-600 mb-4">
+                    <Sparkles className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-lg font-medium text-center mb-2">Nouveau projet</h3>
+                  <p className="text-muted-foreground text-center mb-4">
+                    Découvrez nos services et commencez un nouveau projet
+                  </p>
+                  <Button variant="outline">
+                    <Plus className="mr-2 h-4 w-4" />
+                    Découvrir nos services
+                  </Button>
+                </Card>
+              </AnimatedCard>
             </div>
           )}
         </motion.div>

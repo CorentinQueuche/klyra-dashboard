@@ -14,10 +14,13 @@ import ProjectOverview from '@/components/ProjectOverview';
 import Timeline from '@/components/Timeline';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale/fr';
-import { ArrowLeft, MessageSquare, PlusCircle, Send } from 'lucide-react';
+import { ArrowLeft, MessageSquare, PlusCircle, Send, BarChart3, Clock, LineChart } from 'lucide-react';
 import AnimatedCard from '@/components/motion/AnimatedCard';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import PremiumFeatureTab from '@/components/PremiumFeatureTab';
+import ProgressCard from '@/components/ProgressCard';
+import UpgradeBanner from '@/components/UpgradeBanner';
 
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,6 +31,7 @@ const ProjectDetail = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [newMessage, setNewMessage] = useState('');
   const [sendingMessage, setSendingMessage] = useState(false);
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(true);
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -148,6 +152,14 @@ const ProjectDetail = () => {
     }
   };
 
+  const handleUpgradeClick = () => {
+    toast({
+      title: "Abonnement Premium",
+      description: "Vous allez être redirigé vers la page d'abonnement...",
+    });
+    // Ici, vous pourriez rediriger vers une page d'abonnement
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -190,6 +202,17 @@ const ProjectDetail = () => {
           transition={{ duration: 0.5 }}
           className="space-y-6"
         >
+          {showUpgradeBanner && (
+            <UpgradeBanner
+              title="Débloquez tout le potentiel de votre projet"
+              description="Passez à Klyra Premium pour accéder à plus de fonctionnalités et d'analyses"
+              ctaText="Découvrir Premium"
+              onClose={() => setShowUpgradeBanner(false)}
+              onCTAClick={handleUpgradeClick}
+              className="mb-6"
+            />
+          )}
+
           <div className="flex items-center mb-6">
             <Button variant="ghost" className="mr-4" onClick={() => navigate('/projects')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -217,9 +240,11 @@ const ProjectDetail = () => {
             onValueChange={setActiveTab}
             className="space-y-4"
           >
-            <TabsList className="grid grid-cols-3">
+            <TabsList className="grid grid-cols-5">
               <TabsTrigger value="overview">Aperçu</TabsTrigger>
+              <TabsTrigger value="progress">Progrès</TabsTrigger>
               <TabsTrigger value="timeline">Chronologie</TabsTrigger>
+              <TabsTrigger value="statistics">Statistiques</TabsTrigger>
               <TabsTrigger value="messages">Messages</TabsTrigger>
             </TabsList>
             
@@ -383,6 +408,32 @@ const ProjectDetail = () => {
                   </div>
                 </TabsContent>
                 
+                <TabsContent value="progress">
+                  <AnimatedCard>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <ProgressCard
+                        title="Avancement des tâches"
+                        description="Nombre de tâches terminées par rapport au nombre total"
+                        value={tasks.filter(t => t.status === 'completed').length}
+                        total={tasks.length}
+                      />
+                      <ProgressCard
+                        title="Respect des délais"
+                        description="Pourcentage de tâches terminées dans les délais"
+                        value={tasks.filter(t => t.status === 'completed' && t.due_date && new Date(t.due_date) >= new Date()).length}
+                        total={tasks.filter(t => t.status === 'completed').length || 1}
+                      />
+                      <div className="md:col-span-2">
+                        <PremiumFeatureTab
+                          title="Débloquez l'analyse avancée de progression"
+                          description="Accédez à des analyses détaillées, des graphiques de performance et des prévisions pour mieux suivre l'avancement de votre projet."
+                          onUpgrade={handleUpgradeClick}
+                        />
+                      </div>
+                    </div>
+                  </AnimatedCard>
+                </TabsContent>
+                
                 <TabsContent value="timeline">
                   <AnimatedCard>
                     <Card className="glass-card">
@@ -402,6 +453,15 @@ const ProjectDetail = () => {
                       </CardContent>
                     </Card>
                   </AnimatedCard>
+                </TabsContent>
+                
+                <TabsContent value="statistics">
+                  <PremiumFeatureTab
+                    title="Statistiques avancées disponibles avec Klyra Premium"
+                    description="Accédez à des statistiques détaillées, des graphiques de performance et des indicateurs clés pour analyser vos projets en profondeur."
+                    ctaText="Passer à Premium pour débloquer"
+                    onUpgrade={handleUpgradeClick}
+                  />
                 </TabsContent>
                 
                 <TabsContent value="messages">
