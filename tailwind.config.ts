@@ -64,17 +64,22 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				klyra: {
-					50: '#f0f9ff',
-					100: '#e0f2fe',
-					200: '#bae6fd',
-					300: '#7dd3fc',
-					400: '#38bdf8',
-					500: '#0ea5e9',
-					600: '#0284c7',
-					700: '#0369a1',
-					800: '#075985',
-					900: '#0c4a6e',
+					50: 'hsl(var(--klyra-50))',
+					100: 'hsl(var(--klyra-100))',
+					200: 'hsl(var(--klyra-200))',
+					300: 'hsl(var(--klyra-300))',
+					400: 'hsl(var(--klyra-400))',
+					500: 'hsl(var(--klyra-500))',
+					600: 'hsl(var(--klyra-600))',
+					700: 'hsl(var(--klyra-700))',
+					800: 'hsl(var(--klyra-800))',
+					900: 'hsl(var(--klyra-900))',
+					950: 'hsl(var(--klyra-950))',
 				}
+			},
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				heading: ['Poppins', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -113,6 +118,14 @@ export default {
 				'pulse-slow': {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.8' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
 				}
 			},
 			animation: {
@@ -123,8 +136,20 @@ export default {
 				'scale-in': 'scale-in 0.2s ease-out',
 				'slide-in': 'slide-in 0.3s ease-out',
 				'slide-right': 'slide-right 0.3s ease-out',
-				'pulse-slow': 'pulse-slow 3s infinite'
-			}
+				'pulse-slow': 'pulse-slow 3s infinite',
+				'float': 'float 5s ease-in-out infinite',
+				'shimmer': 'shimmer 2s linear infinite'
+			},
+			boxShadow: {
+				'glass': '0 0 15px rgba(0, 0, 0, 0.05)',
+				'glass-hover': '0 0 20px rgba(0, 0, 0, 0.1)',
+				'premium': '0 10px 25px -5px rgba(0, 112, 230, 0.1)',
+			},
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'gradient-premium': 'linear-gradient(135deg, hsl(var(--klyra-50)), hsl(var(--klyra-100)))',
+				'shimmer': 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.5) 60%, rgba(255,255,255,0) 100%)',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

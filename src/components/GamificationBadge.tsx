@@ -1,7 +1,18 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from '@/components/ui/tooltip';
+import { 
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger
+} from '@/components/ui/hover-card';
 import { Trophy, Star, Award, Zap, Medal } from 'lucide-react';
 
 export type BadgeType = 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
@@ -15,26 +26,31 @@ interface GamificationBadgeProps {
   obtained?: boolean;
 }
 
-const BadgeConfig: Record<BadgeType, { icon: React.ElementType; color: string }> = {
+const BadgeConfig: Record<BadgeType, { icon: React.ElementType; color: string; gradient: string }> = {
   bronze: { 
     icon: Medal, 
-    color: 'text-amber-700 bg-amber-50 border-amber-200' 
+    color: 'text-amber-700 border-amber-200',
+    gradient: 'from-amber-100 to-amber-300'
   },
   silver: { 
     icon: Star, 
-    color: 'text-slate-500 bg-slate-50 border-slate-200' 
+    color: 'text-slate-500 border-slate-200',
+    gradient: 'from-slate-100 to-slate-300'
   },
   gold: { 
     icon: Trophy, 
-    color: 'text-yellow-600 bg-yellow-50 border-yellow-200' 
+    color: 'text-yellow-600 border-yellow-200',
+    gradient: 'from-yellow-100 to-yellow-300'
   },
   platinum: { 
     icon: Zap, 
-    color: 'text-sky-600 bg-sky-50 border-sky-200' 
+    color: 'text-sky-600 border-sky-200',
+    gradient: 'from-sky-100 to-sky-300'
   },
   diamond: { 
     icon: Award, 
-    color: 'text-indigo-600 bg-indigo-50 border-indigo-200' 
+    color: 'text-indigo-600 border-indigo-200',
+    gradient: 'from-indigo-100 to-indigo-300'
   },
 };
 
@@ -52,39 +68,62 @@ export const GamificationBadge: React.FC<GamificationBadgeProps> = ({
   size = 'md',
   obtained = false 
 }) => {
-  const { icon: BadgeIcon, color } = BadgeConfig[type];
+  const { icon: BadgeIcon, color, gradient } = BadgeConfig[type];
   const sizeClass = sizeClasses[size];
   
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div 
-            className={cn(
-              'relative flex items-center justify-center rounded-full border p-1 transition-all',
-              color,
-              sizeClass,
-              obtained ? 'opacity-100 shadow-sm' : 'opacity-50 grayscale',
-              className
-            )}
-          >
-            <BadgeIcon className={cn(
-              'w-1/2 h-1/2',
-              obtained ? 'animate-pulse-slow' : ''
-            )} />
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={cn(
+            'relative flex items-center justify-center rounded-full border p-1 transition-all cursor-pointer',
+            obtained ? `bg-gradient-to-br ${gradient} ${color} shadow-sm` : 'bg-gray-50 opacity-50 grayscale',
+            sizeClass,
+            className
+          )}
+        >
+          <BadgeIcon className={cn(
+            'w-1/2 h-1/2',
+            obtained && 'text-current'
+          )} />
+          
+          {obtained && (
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              animate={{
+                boxShadow: ['0 0 0 0px rgba(255, 255, 255, 0)', '0 0 0 4px rgba(255, 255, 255, 0)'],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatType: 'reverse',
+              }}
+            />
+          )}
+        </motion.div>
+      </HoverCardTrigger>
+      <HoverCardContent side="top" align="center" className="w-64 p-0 glass-card">
+        <div className="p-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <BadgeIcon className="w-5 h-5" />
+            <h4 className="font-medium">{label}</h4>
           </div>
-        </TooltipTrigger>
-        <TooltipContent side="bottom" align="center" className="max-w-[200px] text-center">
-          <div className="space-y-1 p-1">
-            <p className="font-medium">{label}</p>
-            <p className="text-xs text-muted-foreground">{description}</p>
-            {!obtained && (
-              <p className="text-xs italic text-muted-foreground">Non obtenu</p>
-            )}
-          </div>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+          <p className="text-sm text-muted-foreground">{description}</p>
+          {!obtained && (
+            <div className="text-xs italic text-muted-foreground mt-2 pt-2 border-t">
+              Complétez cette réalisation pour débloquer ce badge
+            </div>
+          )}
+          {obtained && (
+            <div className="text-xs text-emerald-600 font-medium mt-2 pt-2 border-t flex items-center">
+              <Star className="w-3 h-3 mr-1" /> Badge obtenu
+            </div>
+          )}
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   );
 };
 
