@@ -1,4 +1,3 @@
-
 export type Status = 'pending' | 'in-progress' | 'completed' | 'delayed' | 'live';
 
 export interface Profile {
@@ -43,4 +42,12 @@ export interface Message {
   content: string;
   created_at: string;
   is_read: boolean | null;
+}
+
+export interface TimelineItem {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  status: 'pending' | 'in-progress' | 'completed' | 'delayed' | 'live';
 }
