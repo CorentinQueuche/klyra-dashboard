@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -103,21 +105,24 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.02em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight font-medium;
+    letter-spacing: 0.01em;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-sm;
+    @apply bg-white/90 backdrop-blur-lg border border-white/50 shadow-sm;
   }
   
   .glass-card:hover {
-    @apply bg-white/80 shadow-md transition-all duration-300;
+    @apply bg-white shadow-md transition-all duration-300;
   }
   
   .glass-dark {
