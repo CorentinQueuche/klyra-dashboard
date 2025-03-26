@@ -1,3 +1,4 @@
+
 export type Status = 'pending' | 'in-progress' | 'completed' | 'delayed' | 'live';
 
 export interface Profile {
@@ -49,5 +50,12 @@ export interface TimelineItem {
   title: string;
   date: string;
   description: string;
-  status: 'pending' | 'in-progress' | 'completed' | 'delayed' | 'live';
+  status: Status;
+}
+
+export interface StatisticsData {
+  label: string;
+  value: number;
+  change?: number;
+  changeType?: 'increase' | 'decrease' | 'neutral';
 }

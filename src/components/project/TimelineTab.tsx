@@ -17,10 +17,23 @@ const TimelineTab: React.FC<TimelineTabProps> = ({ timelineItems, onAddTask }) =
     <AnimatedCard>
       <Card className="glass-card">
         <CardContent className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-xl font-semibold">Chronologie du projet</h2>
+              <p className="text-muted-foreground">Visualisez les étapes et l'avancement de votre projet</p>
+            </div>
+            {onAddTask && (
+              <Button onClick={onAddTask}>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Ajouter une tâche
+              </Button>
+            )}
+          </div>
+          
           {timelineItems.length > 0 ? (
             <Timeline items={timelineItems} />
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-12 border-2 border-dashed border-muted rounded-lg">
               <h3 className="text-xl font-semibold mb-2">Aucune tâche dans la chronologie</h3>
               <p className="text-muted-foreground mb-4">Ajoutez des tâches à votre projet pour voir la chronologie</p>
               <Button onClick={onAddTask}>
