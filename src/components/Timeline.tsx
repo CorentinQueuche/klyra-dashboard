@@ -3,15 +3,14 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import StatusBadge from './StatusBadge';
-
-export type TimelineItemStatus = 'completed' | 'in-progress' | 'pending' | 'delayed';
+import { Status } from '@/lib/types';
 
 interface TimelineItem {
   id: string;
   title: string;
   date: string;
   description: string;
-  status: TimelineItemStatus;
+  status: Status;
 }
 
 interface TimelineProps {
@@ -19,11 +18,12 @@ interface TimelineProps {
   className?: string;
 }
 
-const statusIcons: Record<TimelineItemStatus, React.ReactNode> = {
+const statusIcons: Record<Status, React.ReactNode> = {
   completed: <CheckCircle className="h-5 w-5 text-green-500" />,
   'in-progress': <Clock className="h-5 w-5 text-klyra-500 animate-pulse-slow" />,
   pending: <Clock className="h-5 w-5 text-muted-foreground" />,
   delayed: <AlertCircle className="h-5 w-5 text-amber-500" />,
+  live: <CheckCircle className="h-5 w-5 text-blue-500" />,
 };
 
 export const Timeline: React.FC<TimelineProps> = ({ items, className }) => {
@@ -46,9 +46,7 @@ export const Timeline: React.FC<TimelineProps> = ({ items, className }) => {
             <div className="flex flex-col pb-6">
               <div className="flex items-center gap-2">
                 <h4 className="font-semibold text-base">{item.title}</h4>
-                <StatusBadge status={item.status === 'delayed' ? 'delayed' : 
-                  item.status === 'completed' ? 'completed' : 
-                  item.status === 'in-progress' ? 'in-progress' : 'pending'} />
+                <StatusBadge status={item.status} />
               </div>
               <time className="text-xs text-muted-foreground mt-0.5">{item.date}</time>
               <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>

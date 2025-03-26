@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import AnimatedCard from '@/components/motion/AnimatedCard';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
@@ -57,7 +57,6 @@ const StatisticsTab: React.FC<StatisticsTabProps> = ({ onUpgrade }) => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip content={<ChartTooltipContent />} />
-                  <Legend />
                   <Bar dataKey="complétées" fill="var(--color-complétées)" />
                   <Bar dataKey="retardées" fill="var(--color-retardées)" />
                   <Bar dataKey="enCours" fill="var(--color-enCours)" />

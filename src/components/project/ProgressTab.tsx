@@ -3,8 +3,8 @@ import React from 'react';
 import { ProgressCard } from '@/components/ProgressCard';
 import AnimatedCard from '@/components/motion/AnimatedCard';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { Button } from '@/components/ui/button';
 import { ArrowUpRight, Clock, Sparkles } from 'lucide-react';
 

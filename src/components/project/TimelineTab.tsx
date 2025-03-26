@@ -36,10 +36,12 @@ const TimelineTab: React.FC<TimelineTabProps> = ({ timelineItems, onAddTask }) =
             <div className="text-center py-12 border-2 border-dashed border-muted rounded-lg">
               <h3 className="text-xl font-semibold mb-2">Aucune tâche dans la chronologie</h3>
               <p className="text-muted-foreground mb-4">Ajoutez des tâches à votre projet pour voir la chronologie</p>
-              <Button onClick={onAddTask}>
-                <PlusCircle className="mr-2 h-4 w-4" />
-                Ajouter une tâche
-              </Button>
+              {onAddTask && (
+                <Button onClick={onAddTask}>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Ajouter une tâche
+                </Button>
+              )}
             </div>
           )}
         </CardContent>
